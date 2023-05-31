@@ -18,8 +18,7 @@ public class CancerVisualizer extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        SortingData data = new SortingData("src\\basic\\Cancer Deaths Country Data - Sheet1 (1).csv");
-
+        
         TableView<String[]> table = new TableView<>();
         VBox vbox = new VBox(table);
 

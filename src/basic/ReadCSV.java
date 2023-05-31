@@ -3,6 +3,8 @@ package basic;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,8 +14,7 @@ import javafx.scene.control.TableView;
 public class ReadCSV {
 
     public static void populateTableFromCSV(TableView<String[]> table, String filePath) {
-        ObservableList<String[]> data = FXCollections.observableArrayList();
-        
+        ArrayList<String[]> data  = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -24,7 +25,8 @@ public class ReadCSV {
             e.printStackTrace();
         }
         
-        table.setItems(data);
+        ObservableList<String[]> items = FXCollections.observableArrayList(data);
+        table.setItems(items);
         populateColumns(table, data.get(0));
     }
     
