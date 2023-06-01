@@ -18,36 +18,8 @@ public class CancerVisualizer extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        
-        TableView<String[]> table = new TableView<>();
+        TableView<CancerData> table = new TableView<>();
         VBox vbox = new VBox(table);
-
-        TableColumn<String[], String> country = new TableColumn<>("Country");
-        table.getColumns().add(country);
-
-        TableColumn<String[], String> deathsLiver = new TableColumn<>("Liver");
-        table.getColumns().add(deathsLiver);
-
-        TableColumn<String[], String> deathsKidney = new TableColumn<>("Kidney");
-        table.getColumns().add(deathsKidney);
-
-        TableColumn<String[], String> deathsOral = new TableColumn<>("Oral");
-        table.getColumns().add(deathsOral);
-
-        TableColumn<String[], String> deathsLungs = new TableColumn<>("Lungs");
-        table.getColumns().add(deathsLungs);
-
-        TableColumn<String[], String> deathsLarynx = new TableColumn<>("Larynx");
-        table.getColumns().add(deathsLarynx);
-
-        TableColumn<String[], String> deathsGalbladder = new TableColumn<>("Galbladder");
-        table.getColumns().add(deathsGalbladder);
-
-        TableColumn<String[], String> deathsSkin = new TableColumn<>("Skin");
-        table.getColumns().add(deathsSkin);
-
-        TableColumn<String[], String> deathsLeukemia = new TableColumn<>("Leukemia");
-        table.getColumns().add(deathsLeukemia);
 
         table.setPrefWidth(600);
         table.setPrefHeight(400);
@@ -64,6 +36,7 @@ public class CancerVisualizer extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        ReadCSV.populateTableFromCSV(table, "src\\basic\\Cancer Deaths Country Data - Sheet1 (1).csv");
+        ReadCSV.populateTableFromCSV(table, "C:\\SimpleData.csv");
+        CancerDataSet.sortByColumn("Liver");
     }
 }
