@@ -101,4 +101,14 @@ public class CancerDataSet {
                 throw new IllegalArgumentException("Invalid column name: " + columnName);
         }
     }
+
+    public static int linearSearch(String columnName, String target) {
+        for (CancerData cancerData : data) {
+            int columnValue = getColumnValue(cancerData, columnName);
+            if (String.valueOf(columnValue).equals(target)) {
+                return 1; 
+            }
+        }
+        return -1; 
+    }
 }
