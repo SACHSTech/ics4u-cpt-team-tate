@@ -1,9 +1,12 @@
 package basic;
 
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -19,6 +22,7 @@ public class CancerVisualizer extends Application {
     private Button sortButton;
     private TableView<CancerData> table;
     private ComboBox<String> comboBox;
+    private ArrayList<CancerData> data;
 
     public static void main(String[] args) {
         launch(args);
@@ -26,6 +30,9 @@ public class CancerVisualizer extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+        BarChartGenerator barChartVisualization = new BarChartGenerator();
+        barChartVisualization.generateFromCSV("C:\\SimpleData.csv");
         table = new TableView<>();
         table.setMaxWidth(590);
         table.setMaxHeight(400);
@@ -54,11 +61,14 @@ public class CancerVisualizer extends Application {
 
         AnchorPane.setTopAnchor(comboBoxLabel, 460.0);
         AnchorPane.setLeftAnchor(comboBoxLabel, 10.0);
+
         TabPane tabPane = new TabPane();
         Tab barChart = new Tab("Bar Chart", new Label("Show all planes available"));
         Tab lineChart = new Tab("Line Chart", new Label("Show all cars available"));
         Tab anchorPaneTab = new Tab("Table", anchorPane);
 
+        barChart.setContent(barChartVisualization.getBarChart());
+        
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         tabPane.setPrefSize(screenBounds.getWidth(), screenBounds.getHeight());
 
@@ -71,6 +81,7 @@ public class CancerVisualizer extends Application {
         primaryStage.setTitle("Cancer Deaths Interactive Data Model");
         primaryStage.setScene(scene);
         primaryStage.show();
+
         ReadCSV.populateTableFromCSV(table, "C:\\SimpleData.csv");
     }
 }
