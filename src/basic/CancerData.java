@@ -10,8 +10,9 @@ public class CancerData {
     private int galbladder;
     private int skin;
     private int leukemia;
-    
-    public CancerData(String country, int liver, int kidney, int oral, int lungs, int larynx, int galbladder, int skin, int leukemia){
+    private int total; 
+
+    public CancerData(String country, int liver, int kidney, int oral, int lungs, int larynx, int galbladder, int skin, int leukemia, int total){
         this.country = country;
         this.liver = liver;
         this.kidney = kidney;
@@ -21,6 +22,7 @@ public class CancerData {
         this.galbladder = galbladder;
         this.skin = skin;
         this.leukemia = leukemia;
+        this.total = total;
     }
     public String getCountry() {
         return country;
@@ -57,12 +59,16 @@ public class CancerData {
       public int getLeukemia() {
         return leukemia;
       }
+
+      public int getTotal() {
+        return total;
+      }
     
       public String toCommaDelimitedString() {
         return new StringBuffer().append(this.country).append(",").append(this.liver).append(",")
             .append(this.kidney).append(",").append(this.oral).append(",").append(this.lungs)
             .append(",").append(this.larynx).append(",").append(this.galbladder).append(",")
-            .append(this.skin).append(",").append(this.leukemia).toString();
+            .append(this.skin).append(",").append(this.leukemia).append(",").append(this.total).toString();
       }
     
       @Override

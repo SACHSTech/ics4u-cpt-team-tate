@@ -21,7 +21,7 @@ public class BarChartGenerator {
 
         // Create bar chart
         barChart = new BarChart<>(xAxis, yAxis);
-        barChart.setTitle("Data from CSV");
+        barChart.setTitle("Cancer Data Barchart By Country");
         barChart.setCategoryGap(60);
     }
 

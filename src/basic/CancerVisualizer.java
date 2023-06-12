@@ -1,14 +1,13 @@
 package basic;
 
-import java.util.ArrayList;
-
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -21,34 +20,36 @@ public class CancerVisualizer extends Application {
 
     private Button sortButton;
     private TableView<CancerData> table;
-    private ComboBox<String> comboBox;
-    private ArrayList<CancerData> data;
+    private CancerDataSet data = new CancerDataSet();
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
 
         BarChartGenerator barChartVisualization = new BarChartGenerator();
         barChartVisualization.generateFromCSV("C:\\SimpleData.csv");
+
+        LineChartGenerator lineChartVisalization = new LineChartGenerator("C:\\SimpleData.csv", 7);
+
         table = new TableView<>();
-        table.setMaxWidth(590);
+        table.setMaxWidth(700);
         table.setMaxHeight(400);
-
-        String[] columns = {"Liver", "Kidney", "Oral", "Lungs", "Larynx", "Gallbladder", "Skin", "Leukemia"};
-        comboBox = new ComboBox<>(FXCollections.observableArrayList(columns));
-        comboBox.setMaxWidth(100);
-        comboBox.setMaxHeight(10);
-
         sortButton = new Button("Sort Data");
         sortButton.setPrefSize(600, 20);
 
-        Label comboBoxLabel = new Label("Select the cancer to sort by");
+       sortButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                 data.sortByColumn("Total");
+                 table.setItems(FXCollections.observableArrayList(data.getData()));
+            }
+        });
 
         AnchorPane anchorPane = new AnchorPane();
-        anchorPane.getChildren().addAll(table, comboBox, sortButton, comboBoxLabel);
+        anchorPane.getChildren().addAll(table, sortButton);
 
         AnchorPane.setTopAnchor(sortButton, 10.0);
         AnchorPane.setLeftAnchor(sortButton, 10.0);
@@ -56,18 +57,13 @@ public class CancerVisualizer extends Application {
         AnchorPane.setTopAnchor(table, 50.0);
         AnchorPane.setLeftAnchor(table, 10.0);
 
-        AnchorPane.setTopAnchor(comboBox, 460.0);
-        AnchorPane.setLeftAnchor(comboBox, 160.0);
-
-        AnchorPane.setTopAnchor(comboBoxLabel, 460.0);
-        AnchorPane.setLeftAnchor(comboBoxLabel, 10.0);
-
         TabPane tabPane = new TabPane();
         Tab barChart = new Tab("Bar Chart", new Label("Show all planes available"));
         Tab lineChart = new Tab("Line Chart", new Label("Show all cars available"));
         Tab anchorPaneTab = new Tab("Table", anchorPane);
 
         barChart.setContent(barChartVisualization.getBarChart());
+        lineChart.setContent(lineChartVisalization.generateLineChart());
         
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         tabPane.setPrefSize(screenBounds.getWidth(), screenBounds.getHeight());

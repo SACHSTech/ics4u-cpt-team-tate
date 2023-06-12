@@ -16,6 +16,7 @@ public class ReadCSV {
 
     public static void populateTableFromCSV(TableView<CancerData> table, String filePath) {
         CancerDataSet data = new CancerDataSet();
+        
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
@@ -29,7 +30,8 @@ public class ReadCSV {
                 int galbladder = Integer.parseInt(row[6]);
                 int skin = Integer.parseInt(row[7]);
                 int leukemia = Integer.parseInt(row[8]);
-                CancerData cancerData = new CancerData(country, liver, kidney, oral, lungs, larynx, galbladder, skin, leukemia);
+                int total = Integer.parseInt(row[9]);
+                CancerData cancerData = new CancerData(country, liver, kidney, oral, lungs, larynx, galbladder, skin, leukemia, total);
                 data.addData(cancerData);
             }
         } catch (IOException e) {
@@ -37,7 +39,7 @@ public class ReadCSV {
         }
     
         table.setItems(FXCollections.observableArrayList(data.getData()));
-        populateColumns(table, new String[]{"Country", "Liver", "Kidney", "Oral", "Lungs", "Larynx", "Galbladder", "Skin", "Leukemia"});
+        populateColumns(table, new String[]{"Country", "Liver", "Kidney", "Oral", "Lungs", "Larynx", "Galbladder", "Skin", "Leukemia", "Total"});
     }
     
     private static void populateColumns(TableView<CancerData> table, String[] headers) {
@@ -78,6 +80,10 @@ public class ReadCSV {
         TableColumn<CancerData, Integer> leukemiaColumn = new TableColumn<>("Leukemia");
         leukemiaColumn.setCellValueFactory(new PropertyValueFactory<>("leukemia"));
         table.getColumns().add(leukemiaColumn);
+
+        TableColumn<CancerData, Integer> totalColumn = new TableColumn<>("Total");
+        totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
+        table.getColumns().add(totalColumn);
     }
     
 }

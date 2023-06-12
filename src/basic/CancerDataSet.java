@@ -16,7 +16,7 @@ public class CancerDataSet {
         data.add(cancerData);
     }
 
-    public ArrayList<CancerData> getData() {
+    public static ArrayList<CancerData> getData() {
         return data;
     }
 
@@ -49,6 +49,9 @@ public class CancerDataSet {
             case "Leukemia":
                 sort(data, "Leukemia");
                 break;
+            case "Total":
+                Collections.sort(data, Comparator.comparingInt(CancerData::getTotal));
+                break;
             default:
                 sort(data, "Country");
                 break;
@@ -59,7 +62,7 @@ public class CancerDataSet {
         }
     }
 
-    public static void sort(ArrayList<CancerData> arr, String columnName) {
+    private static void sort(ArrayList<CancerData> arr, String columnName) {
         int n = arr.size();
         for (int i = 0; i < n - 1; i++) {
             int minIndex = i;
@@ -71,11 +74,6 @@ public class CancerDataSet {
             CancerData temp = arr.get(minIndex);
             arr.set(minIndex, arr.get(i));
             arr.set(i, temp);
-        }
-    
-        System.out.println("Sorted list by " + columnName + ":");
-        for (CancerData cancerData : arr) {
-            System.out.println(cancerData);
         }
     }
     
@@ -97,6 +95,8 @@ public class CancerDataSet {
                 return data.getSkin();
             case "Leukemia":
                 return data.getLeukemia();
+            case "Total":
+                return data.getTotal();
             default:
                 throw new IllegalArgumentException("Invalid column name: " + columnName);
         }
